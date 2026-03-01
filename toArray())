@@ -1,0 +1,144 @@
+
+Deprecated: Termwind\style(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nunomaduro\termwind\src\Functions.php on line 29
+
+Deprecated: Termwind\ask(): Implicitly marking parameter $autocomplete as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nunomaduro\termwind\src\Functions.php on line 61
+
+Deprecated: optional(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Support\helpers.php on line 190
+
+Deprecated: with(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Support\helpers.php on line 430
+
+Deprecated: Illuminate\Container\Container::beforeResolving(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Container\Container.php on line 1151
+
+Deprecated: Illuminate\Container\Container::resolving(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Container\Container.php on line 1171
+
+Deprecated: Illuminate\Container\Container::afterResolving(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Container\Container.php on line 1191
+
+Deprecated: Illuminate\Container\Container::setInstance(): Implicitly marking parameter $container as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Container\Container.php on line 1430
+
+Deprecated: Illuminate\Contracts\Container\Container::beforeResolving(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Contracts\Container\Container.php on line 200
+
+Deprecated: Illuminate\Contracts\Container\Container::resolving(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Contracts\Container\Container.php on line 209
+
+Deprecated: Illuminate\Contracts\Container\Container::afterResolving(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Contracts\Container\Container.php on line 218
+
+Deprecated: Illuminate\Support\Arr::first(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Collections\Arr.php on line 188
+
+Deprecated: Illuminate\Support\Arr::last(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Collections\Arr.php on line 219
+
+Deprecated: Illuminate\Events\Dispatcher::__construct(): Implicitly marking parameter $container as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Events\Dispatcher.php on line 75
+
+Deprecated: Carbon\Traits\Date::getDaysFromStartOfWeek(): Implicitly marking parameter $weekStartsAt as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\Traits\Date.php on line 1394
+
+Deprecated: Carbon\Traits\Date::setDaysFromStartOfWeek(): Implicitly marking parameter $weekStartsAt as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\Traits\Date.php on line 1412
+
+Deprecated: Carbon\Traits\Date::utcOffset(): Implicitly marking parameter $minuteOffset as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\Traits\Date.php on line 1481
+
+Deprecated: Carbon\Traits\Localization::locale(): Implicitly marking parameter $locale as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\Traits\Localization.php on line 447
+
+Deprecated: Carbon\Traits\Test::setDefaultTimezone(): Implicitly marking parameter $date as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\Traits\Test.php on line 203
+
+Deprecated: Illuminate\Support\Traits\Conditionable::when(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Conditionable\Traits\Conditionable.php on line 21
+
+Deprecated: Illuminate\Support\Traits\Conditionable::when(): Implicitly marking parameter $default as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Conditionable\Traits\Conditionable.php on line 21
+
+Deprecated: Illuminate\Support\Traits\Conditionable::unless(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Conditionable\Traits\Conditionable.php on line 53
+
+Deprecated: Illuminate\Support\Traits\Conditionable::unless(): Implicitly marking parameter $default as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Conditionable\Traits\Conditionable.php on line 53
+
+Deprecated: Carbon\CarbonTimeZone::toOffsetName(): Implicitly marking parameter $date as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\CarbonTimeZone.php on line 158
+
+Deprecated: Carbon\CarbonTimeZone::toOffsetTimeZone(): Implicitly marking parameter $date as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\CarbonTimeZone.php on line 172
+
+Deprecated: Carbon\CarbonTimeZone::toRegionName(): Implicitly marking parameter $date as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\CarbonTimeZone.php on line 188
+
+Deprecated: Carbon\CarbonTimeZone::toRegionTimeZone(): Implicitly marking parameter $date as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\nesbot\carbon\src\Carbon\CarbonTimeZone.php on line 230
+
+Deprecated: Illuminate\Support\Str::createRandomStringsUsing(): Implicitly marking parameter $factory as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Support\Str.php on line 962
+
+Deprecated: Illuminate\Support\Str::createUuidsUsing(): Implicitly marking parameter $factory as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Support\Str.php on line 1668
+
+Deprecated: Illuminate\Support\Str::freezeUuids(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Support\Str.php on line 1713
+
+Deprecated: Illuminate\Support\Str::createUlidsUsing(): Implicitly marking parameter $factory as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Support\Str.php on line 1775
+
+Deprecated: Illuminate\Support\Str::freezeUlids(): Implicitly marking parameter $callback as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\laravel\framework\src\Illuminate\Support\Str.php on line 1820
+
+Deprecated: voku\helper\ASCII::to_ascii(): Implicitly marking parameter $replace_single_chars_only as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\voku\portable-ascii\src\voku\helper\ASCII.php on line 795
+
+Deprecated: Maatwebsite\Excel\Excel::download(): Implicitly marking parameter $writerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 81
+
+Deprecated: Maatwebsite\Excel\Excel::store(): Implicitly marking parameter $diskName as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 101
+
+Deprecated: Maatwebsite\Excel\Excel::store(): Implicitly marking parameter $writerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 101
+
+Deprecated: Maatwebsite\Excel\Excel::store(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 101
+
+Deprecated: Maatwebsite\Excel\Excel::queue(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 122
+
+Deprecated: Maatwebsite\Excel\Excel::queue(): Implicitly marking parameter $writerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 122
+
+Deprecated: Maatwebsite\Excel\Excel::import(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 151
+
+Deprecated: Maatwebsite\Excel\Excel::import(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 151
+
+Deprecated: Maatwebsite\Excel\Excel::toArray(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 166
+
+Deprecated: Maatwebsite\Excel\Excel::toArray(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 166
+
+Deprecated: Maatwebsite\Excel\Excel::toCollection(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 176
+
+Deprecated: Maatwebsite\Excel\Excel::toCollection(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 176
+
+Deprecated: Maatwebsite\Excel\Excel::queueImport(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 186
+
+Deprecated: Maatwebsite\Excel\Excel::queueImport(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 186
+
+Deprecated: Maatwebsite\Excel\Excel::export(): Implicitly marking parameter $writerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Excel.php on line 199
+
+Deprecated: Maatwebsite\Excel\Exporter::download(): Implicitly marking parameter $writerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Exporter.php on line 17
+
+Deprecated: Maatwebsite\Excel\Exporter::store(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Exporter.php on line 30
+
+Deprecated: Maatwebsite\Excel\Exporter::store(): Implicitly marking parameter $writerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Exporter.php on line 30
+
+Deprecated: Maatwebsite\Excel\Exporter::queue(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Exporter.php on line 40
+
+Deprecated: Maatwebsite\Excel\Exporter::queue(): Implicitly marking parameter $writerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Exporter.php on line 40
+
+Deprecated: Maatwebsite\Excel\Importer::import(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 17
+
+Deprecated: Maatwebsite\Excel\Importer::import(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 17
+
+Deprecated: Maatwebsite\Excel\Importer::toArray(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 26
+
+Deprecated: Maatwebsite\Excel\Importer::toArray(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 26
+
+Deprecated: Maatwebsite\Excel\Importer::toCollection(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 35
+
+Deprecated: Maatwebsite\Excel\Importer::toCollection(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 35
+
+Deprecated: Maatwebsite\Excel\Importer::queueImport(): Implicitly marking parameter $disk as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 44
+
+Deprecated: Maatwebsite\Excel\Importer::queueImport(): Implicitly marking parameter $readerType as nullable is deprecated, the explicit nullable type must be used instead in A:\hell\app\vendor\maatwebsite\excel\src\Importer.php on line 44
+
+   InvalidArgumentException 
+
+  Unexpected end of input
+
+  at vendor\psy\psysh\src\Shell.php:887
+    883▕ 
+    884▕         if (!$this->hasValidCode()) {
+    885▕             $this->popCodeStack();
+    886▕ 
+  ➜ 887▕             throw new \InvalidArgumentException('Unexpected end of input');
+    888▕         }
+    889▕     }
+    890▕ 
+    891▕     /**
+
+  1   vendor\psy\psysh\src\Shell.php:1342
+      Psy\Shell::setCode("print_r(App\Models\Role::pluck('name')-")
+
+  2   vendor\laravel\tinker\src\Console\TinkerCommand.php:76
+      Psy\Shell::execute("print_r(App\Models\Role::pluck('name')-")
+
