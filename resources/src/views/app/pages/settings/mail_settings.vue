@@ -33,6 +33,7 @@
                         >{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                       </b-form-group>
                       <p class="text-danger">Supported: "smtp", "sendmail", "mailgun", "ses","postmark", "log"</p>
+                      <p class="text-info">For <strong>SendGrid</strong>, use "smtp" with Host: smtp.sendgrid.net, Port: 587, Username: apikey</p>
                     </validation-provider>
                   </b-col>
 

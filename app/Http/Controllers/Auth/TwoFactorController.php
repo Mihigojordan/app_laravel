@@ -85,10 +85,38 @@ class TwoFactorController extends Controller
         ];
 
         try {
-            $smtp = new \App\Http\Controllers\BaseController();
-            $smtp->Set_config_mail();
-            
-            \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\OtpEmail($data));
+            if (env('MAILTRAP_API_TOKEN')) {
+                $client = new \GuzzleHttp\Client();
+                
+                $url = env('MAILTRAP_IS_SANDBOX') 
+                    ? 'https://sandbox.api.mailtrap.io/api/send/' . env('MAILTRAP_INBOX_ID')
+                    : 'https://send.api.mailtrap.io/api/send';
+
+                $response = $client->post($url, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . env('MAILTRAP_API_TOKEN'),
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'from' => ['email' => 'hello@demomailtrap.co', 'name' => 'Mailtrap Test'],
+                        'to' => [['email' => $user->email]],
+                        'subject' => 'Your Login OTP Code',
+                        'text' => 'Your OTP code is: ' . $otp,
+                        'category' => 'OTP Verification',
+                    ],
+                ]);
+
+                if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+                    error_log("MAILTRAP: Email resent successfully to {$user->email}");
+                } else {
+                    error_log("MAILTRAP ERROR: Status " . $response->getStatusCode() . " - " . $response->getBody());
+                }
+            } else {
+                $smtp = new \App\Http\Controllers\BaseController();
+                $smtp->Set_config_mail();
+                
+                \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\OtpEmail($data));
+            }
             
             return response()->json([
                 'status' => true,

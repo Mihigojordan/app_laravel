@@ -56,6 +56,27 @@
       <b-modal hide-footer size="md" id="New_Account" :title="editmode?$t('Edit'):$t('Add')">
         <b-form @submit.prevent="Submit_Account">
           <b-row>
+            <!-- bank_name -->
+            <b-col md="12">
+                <b-form-group :label="$t('Choose_Bank')">
+                  <v-select
+                    v-model="account.bank_name"
+                    :reduce="label => label.value"
+                    :placeholder="$t('Choose_Bank')"
+                    :options="[
+                      {label: 'Bank of Kigali', value: 'Bank of Kigali'},
+                      {label: 'Equity Bank', value: 'Equity Bank'},
+                      {label: 'I&M Bank', value: 'I&M Bank'},
+                      {label: 'Cogebanque', value: 'Cogebanque'},
+                      {label: 'BPR (Banque Populaire du Rwanda)', value: 'BPR (Banque Populaire du Rwanda)'},
+                      {label: 'KCB Bank', value: 'KCB Bank'},
+                      {label: 'Urwego Bank', value: 'Urwego Bank'},
+                      {label: 'GTBank', value: 'GTBank'},
+                    ]"
+                  ></v-select>
+                </b-form-group>
+            </b-col>
+
             <!-- account_num -->
             <b-col md="12">
               <validation-provider
@@ -212,6 +233,7 @@ export default {
         account_name: "",
         initial_balance: 0,
         type: "Asset",
+        bank_name: "",
         is_default: false,
         note: ""
       }
@@ -229,6 +251,12 @@ export default {
         {
           label: this.$t("account_name"),
           field: "account_name",
+          tdClass: "text-left",
+          thClass: "text-left"
+        },
+        {
+          label: this.$t("Bank"),
+          field: "bank_name",
           tdClass: "text-left",
           thClass: "text-left"
         },
@@ -462,6 +490,7 @@ export default {
         type: "Asset",
         is_default: false,
         note: "",
+        bank_name: "",
       };
     },
 

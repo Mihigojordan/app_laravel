@@ -28,7 +28,20 @@ Route::post('/login', [
 Route::post('/verify-otp', 'Auth\TwoFactorController@verify');
 Route::post('/resend-otp', 'Auth\TwoFactorController@resend');
 
-Route::get('password/find/{token}', 'PasswordResetController@find');
+Route::get('/seed-req', function() {
+    $permissions = ['requisitions_view', 'requisitions_add', 'requisitions_edit', 'requisitions_delete', 'Purchases_view', 'Purchases_add', 'Purchases_edit', 'Purchases_delete'];
+    foreach ($permissions as $p) {
+        \App\Models\Permission::firstOrCreate(['name' => $p]);
+    }
+    $admin = \App\Models\Role::where('name', 'Admin')->first() ?? \App\Models\Role::where('name', 'admin')->first();
+    if ($admin) {
+        $pIds = \App\Models\Permission::whereIn('name', $permissions)->pluck('id');
+        $admin->permissions()->syncWithoutDetaching($pIds);
+        return "Seeded successfully";
+    }
+    return "Admin role not found";
+});
+
 
 
 //------------------------------------------------------------------\\

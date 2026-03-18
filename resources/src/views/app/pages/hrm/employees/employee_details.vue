@@ -223,6 +223,27 @@
                             </b-form-group>
                           </b-col>
 
+                           <!-- Bank Name -->
+                          <b-col md="4" class="mb-2">
+                            <b-form-group :label="$t('Choose_Bank')">
+                              <v-select
+                                  v-model="employee.bank_name"
+                                  :reduce="label => label.value"
+                                  :placeholder="$t('Choose_Bank')"
+                                  :options="[
+                                    {label: 'Bank of Kigali', value: 'Bank of Kigali'},
+                                    {label: 'Equity Bank', value: 'Equity Bank'},
+                                    {label: 'I&M Bank', value: 'I&M Bank'},
+                                    {label: 'Cogebanque', value: 'Cogebanque'},
+                                    {label: 'BPR (Banque Populaire du Rwanda)', value: 'BPR (Banque Populaire du Rwanda)'},
+                                    {label: 'KCB Bank', value: 'KCB Bank'},
+                                    {label: 'Urwego Bank', value: 'Urwego Bank'},
+                                    {label: 'GTBank', value: 'GTBank'},
+                                  ]"
+                                ></v-select>
+                              </b-form-group>
+                          </b-col>
+
                           <!-- joining_date  -->
                           <b-col md="4" class="mb-2">
                             <b-form-group :label="$t('joining_date')">
@@ -758,13 +779,21 @@
                   v-slot="validationContext"
                 >
                   <b-form-group :label="$t('Bank_Name') + ' ' + '*'">
-                    <b-form-input
-                      :state="getValidationState(validationContext)"
-                      aria-describedby="Bank_Name-feedback"
-                      label="Bank_Name"
-                      :placeholder="$t('Enter_Bank_Name')"
-                      v-model="account_bank.bank_name"
-                    ></b-form-input>
+                    <v-select
+                        v-model="account_bank.bank_name"
+                        :reduce="label => label.value"
+                        :placeholder="$t('Choose_Bank')"
+                        :options="[
+                          {label: 'Bank of Kigali', value: 'Bank of Kigali'},
+                          {label: 'Equity Bank', value: 'Equity Bank'},
+                          {label: 'I&M Bank', value: 'I&M Bank'},
+                          {label: 'Cogebanque', value: 'Cogebanque'},
+                          {label: 'BPR (Banque Populaire du Rwanda)', value: 'BPR (Banque Populaire du Rwanda)'},
+                          {label: 'KCB Bank', value: 'KCB Bank'},
+                          {label: 'Urwego Bank', value: 'Urwego Bank'},
+                          {label: 'GTBank', value: 'GTBank'},
+                        ]"
+                      ></v-select>
                     <b-form-invalid-feedback
                       id="Bank_Name-feedback"
                     >{{ validationContext.errors[0] }}</b-form-invalid-feedback>

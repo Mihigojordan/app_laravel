@@ -100,6 +100,7 @@ class ProvidersController extends BaseController
             $item['city'] = $provider->city;
             $item['adresse'] = $provider->adresse;
             $item['bank_account'] = $provider->bank_account;
+            $item['bank_name'] = $provider->bank_name;
             $data[] = $item;
         }
 
@@ -133,6 +134,7 @@ class ProvidersController extends BaseController
             'city' => $request['city'],
             'tax_number' => $request['tax_number'],
             'bank_account' => $request['bank_account'],
+            'bank_name' => $request['bank_name'],
         ]);
         return response()->json(['success' => true]);
 
@@ -164,6 +166,7 @@ class ProvidersController extends BaseController
             'city' => $request['city'],
             'tax_number' => $request['tax_number'],
             'bank_account' => $request['bank_account'],
+            'bank_name' => $request['bank_name'],
         ]);
         return response()->json(['success' => true]);
 

@@ -16,10 +16,12 @@ class ServerSeeder extends Seeder
         DB::table('servers')->insert(
             array(
                 'id' => 1,
-                'host' => 'mailtrap.io',
-                'port' => '2525',
-                'username' => 'test',
-                'password' => 'test',
+                'mail_mailer' => 'smtp',
+                'host' => 'smtp.sendgrid.net',
+                'port' => '587',
+                'sender_name' => 'Admin',
+                'username' => 'apikey',
+                'password' => 'YOUR_SENDGRID_API_KEY',
                 'encryption' => 'tls',
             )
             

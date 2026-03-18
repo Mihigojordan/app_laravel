@@ -107,6 +107,7 @@ class ClientController extends BaseController
             $item['city'] = $client->city;
             $item['adresse'] = $client->adresse;
             $item['bank_account'] = $client->bank_account;
+            $item['bank_name'] = $client->bank_name;
             $data[] = $item;
         }
 
@@ -150,6 +151,7 @@ class ClientController extends BaseController
             'city' => $request['city'],
             'tax_number' => $request['tax_number'],
             'bank_account' => $request['bank_account'],
+            'bank_name' => $request['bank_name'],
         ]);
         return response()->json(['success' => true]);
     }
@@ -181,6 +183,7 @@ class ClientController extends BaseController
             'city' => $request['city'],
             'tax_number' => $request['tax_number'],
             'bank_account' => $request['bank_account'],
+            'bank_name' => $request['bank_name'],
         ]);
         return response()->json(['success' => true]);
 

@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "../variables";
 @import "colors";
 
@@ -22,7 +23,7 @@ $gray-600: #4B5563 !default;
 $gray-700: #374151 !default;
 $gray-800: #1F2937 !default;
 $gray-900: #111827 !default;
-$black: darken($primary-base, 60%) !default;
+$black: color.adjust($primary-base, $lightness: -60%) !default;
 $primary: $primary-base !default;
 $secondary: $gray-800 !default;
 $success: $green !default;
@@ -33,7 +34,7 @@ $light: $gray-500 !default;
 $dark: $gray-900 !default;
 $background: $white !default;
 $foreground: $gray-900 !default;
-$heading: darken($foreground, 8%);
+$heading: color.adjust($foreground, $lightness: -8%);
 
 // dark version
 $dark-bg: #292929;

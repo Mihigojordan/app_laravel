@@ -87,18 +87,28 @@ class BaseController extends Controller
         $settings = DB::table('settings')->where('deleted_at', '=', null)->first();
         if ($server && $settings) //checking if table is not empty
         {
+            $transport = $server->mail_mailer ?: 'smtp';
+            
             $config = array(
-                'transport' => $server->mail_mailer,
-                'host' => $server->host,
-                'port' => $server->port,
-                'encryption' => $server->encryption,
-                'username' => $server->username,
-                'password' => $server->password,
-                'timeout' => 10,
-                'local_domain' => env('MAIL_EHLO_DOMAIN'),
+                'transport' => $transport,
             );
 
-            Config::set('mail.mailers.smtp', $config);
+            if ($transport == 'smtp') {
+                $config['host'] = $server->host;
+                $config['port'] = $server->port;
+                $config['encryption'] = $server->encryption;
+                $config['username'] = $server->username;
+                $config['password'] = $server->password;
+                $config['timeout'] = 10;
+                $config['local_domain'] = env('MAIL_EHLO_DOMAIN');
+            } elseif ($transport == 'sendmail') {
+                $config['path'] = '/usr/sbin/sendmail -bs';
+            }
+
+            // Set the mailer configuration dynamically
+            Config::set('mail.mailers.' . $transport, $config);
+            Config::set('mail.default', $transport);
+            
             Config::set('mail.from.address', $settings->email);
             Config::set('mail.from.name', $server->sender_name);
         }

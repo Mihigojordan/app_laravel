@@ -24,9 +24,11 @@ class RequisitionController extends BaseController
 
     public function index(request $request)
     {
-        $this->authorizeForUser($request->user('api'), 'view', Requisition::class);
-        $role = Auth::user()->roles()->first();
-        $view_records = Role::findOrFail($role->id)->inRole('record_view');
+        $user_auth = $request->user('api');
+        $this->authorizeForUser($user_auth, 'view', Requisition::class);
+
+        $role = $user_auth->roles()->first();
+        $view_records = $role ? $role->inRole('record_view') : false;
         
         $perPage = $request->limit;
         $order = $request->SortField;
@@ -49,9 +51,9 @@ class RequisitionController extends BaseController
 
         $Requisitions = Requisition::with('warehouse', 'user')
             ->where('deleted_at', '=', null)
-            ->where(function ($query) use ($view_records) {
+            ->where(function ($query) use ($view_records, $user_auth) {
                 if (!$view_records) {
-                    return $query->where('user_id', '=', Auth::user()->id);
+                    return $query->where('user_id', '=', $user_auth->id);
                 }
             });
 
@@ -109,14 +111,15 @@ class RequisitionController extends BaseController
 
     public function store(Request $request)
     {
-        $this->authorizeForUser($request->user('api'), 'create', Requisition::class);
+        $user_auth = $request->user('api');
+        $this->authorizeForUser($user_auth, 'create', Requisition::class);
 
-        request()->validate([
+        $request->validate([
             'warehouse_id' => 'required',
             'date' => 'required',
         ]);
 
-        \DB::transaction(function () use ($request) {
+        \DB::transaction(function () use ($request, $user_auth) {
             $requisition = new Requisition;
 
             $requisition->date = $request->date;
@@ -124,20 +127,32 @@ class RequisitionController extends BaseController
             $requisition->warehouse_id = $request->warehouse_id;
             $requisition->status = 'pending';
             $requisition->notes = $request->notes;
-            $requisition->user_id = Auth::user()->id;
+            $requisition->user_id = $user_auth->id;
             $requisition->save();
 
             $data = $request['details'];
+            $orderDetails = [];
             foreach ($data as $key => $value) {
+                // Fetch unit_id from product if missing
+                $unit_id = $value['unit_id'] ?? null;
+                if (!$unit_id) {
+                    $product = Product::find($value['product_id']);
+                    $unit_id = $product ? $product->unit_id : null;
+                }
+
                 $orderDetails[] = [
                     'requisition_id' => $requisition->id,
                     'quantity' => $value['quantity'],
                     'product_id' => $value['product_id'],
                     'product_variant_id' => $value['product_variant_id'],
-                    'unit_id' =>  $value['unit_id'],
+                    'unit_id' =>  $unit_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ];
             }
-            RequisitionDetail::insert($orderDetails);
+            if (!empty($orderDetails)) {
+                RequisitionDetail::insert($orderDetails);
+            }
         }, 10);
 
         return response()->json(['success' => true]);
@@ -165,16 +180,28 @@ class RequisitionController extends BaseController
 
             RequisitionDetail::where('requisition_id', $id)->delete();
             $data = $request['details'];
+            $orderDetails = [];
             foreach ($data as $key => $value) {
+                // Fetch unit_id from product if missing
+                $unit_id = $value['unit_id'] ?? null;
+                if (!$unit_id) {
+                    $product = Product::find($value['product_id']);
+                    $unit_id = $product ? $product->unit_id : null;
+                }
+
                 $orderDetails[] = [
                     'requisition_id' => $id,
                     'quantity' => $value['quantity'],
                     'product_id' => $value['product_id'],
                     'product_variant_id' => $value['product_variant_id'],
-                    'unit_id' =>  $value['unit_id'],
+                    'unit_id' =>  $unit_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ];
             }
-            RequisitionDetail::insert($orderDetails);
+            if (!empty($orderDetails)) {
+                RequisitionDetail::insert($orderDetails);
+            }
         }, 10);
 
         return response()->json(['success' => true]);

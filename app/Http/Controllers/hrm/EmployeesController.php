@@ -151,6 +151,7 @@ class EmployeesController extends Controller
             $data['office_shift_id'] = $request['office_shift_id'];
             $data['joining_date'] = $request['joining_date'];
             $data['bank_account'] = $request['bank_account'];
+            $data['bank_name'] = $request['bank_name'];
             
             Employee::create($data);
             
@@ -248,6 +249,7 @@ class EmployeesController extends Controller
         $data['basic_salary'] = $request['basic_salary'];
         $data['hourly_rate'] = $request['hourly_rate'];
         $data['bank_account'] = $request['bank_account'];
+        $data['bank_name'] = $request['bank_name'];
 
         //calculation of total_leave & remaining_leave
         $employee_leave_info = Employee::find($id);

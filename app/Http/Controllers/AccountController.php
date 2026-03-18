@@ -53,6 +53,7 @@ class AccountController extends BaseController
             $item['type'] = $account->type;
             $item['is_default'] = $account->is_default;
             $item['note'] = $account->note;
+            $item['bank_name'] = $account->bank_name;
            
             $data[] = $item;
         }
@@ -89,6 +90,7 @@ class AccountController extends BaseController
             'type' => $request['type'],
             'is_default' => $request['is_default'],
             'note' => $request['note'],
+            'bank_name' => $request['bank_name'],
         ]);
 
         return response()->json(['success' => true], 200);
@@ -123,6 +125,7 @@ class AccountController extends BaseController
             'type' => $request['type'],
             'is_default' => $request['is_default'],
             'note' => $request['note'],
+            'bank_name' => $request['bank_name'],
         ]);
 
         return response()->json(['success' => true], 200);

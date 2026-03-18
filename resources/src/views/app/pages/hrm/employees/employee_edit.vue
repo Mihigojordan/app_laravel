@@ -123,6 +123,27 @@
                     </b-form-group>
                 </b-col>
 
+                 <!-- Bank Name -->
+               <b-col lg="6" md="6" sm="12" class="mb-2">
+                  <b-form-group :label="$t('Choose_Bank')">
+                    <v-select
+                        v-model="employee.bank_name"
+                        :reduce="label => label.value"
+                        :placeholder="$t('Choose_Bank')"
+                        :options="[
+                          {label: 'Bank of Kigali', value: 'Bank of Kigali'},
+                          {label: 'Equity Bank', value: 'Equity Bank'},
+                          {label: 'I&M Bank', value: 'I&M Bank'},
+                          {label: 'Cogebanque', value: 'Cogebanque'},
+                          {label: 'BPR (Banque Populaire du Rwanda)', value: 'BPR (Banque Populaire du Rwanda)'},
+                          {label: 'KCB Bank', value: 'KCB Bank'},
+                          {label: 'Urwego Bank', value: 'Urwego Bank'},
+                          {label: 'GTBank', value: 'GTBank'},
+                        ]"
+                      ></v-select>
+                    </b-form-group>
+                </b-col>
+
                 <!-- joining_date  -->
                  <b-col lg="6" md="6" sm="12" class="mb-2">
                     <b-form-group :label="$t('joining_date')">
@@ -447,6 +468,7 @@ export default {
           leaving_date: self.employee.leaving_date,
           total_leave: self.employee.total_leave,
           bank_account: self.employee.bank_account,
+          bank_name: self.employee.bank_name,
 
         }).then(response => {
           // Complete the animation of theprogress bar.

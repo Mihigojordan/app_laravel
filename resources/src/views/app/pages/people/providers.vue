@@ -268,6 +268,18 @@
                 </b-form-group>
             </b-col>
 
+             <!-- Provider Bank Name -->
+            <b-col md="6" sm="12">
+                <b-form-group :label="$t('Bank_Name')">
+                   <v-select
+                    v-model="provider.bank_name"
+                    :reduce="label => label"
+                    :placeholder="$t('PleaseSelect')"
+                    :options="banks"
+                  ></v-select>
+                </b-form-group>
+            </b-col>
+
             <!-- Provider Bank Account -->
             <b-col md="6" sm="12">
                 <b-form-group :label="$t('Bank_Account')">
@@ -635,6 +647,11 @@
                 <th>{{provider.tax_number}}</th>
               </tr>
                <tr>
+                <!-- Provider Bank Name -->
+                <td>{{$t('Bank_Name')}}</td>
+                <th>{{provider.bank_name}}</th>
+              </tr>
+               <tr>
                 <!-- Provider Bank Account -->
                 <td>{{$t('Bank_Account')}}</td>
                 <th>{{provider.bank_account}}</th>
@@ -791,7 +808,8 @@ export default {
         country: "",
         city: "",
         adresse: "",
-        bank_account: ""
+        bank_account: "",
+        bank_name: ""
       },
       payment: {
         provider_id: "",
@@ -813,6 +831,28 @@ export default {
         notes: "",
         payment_method_id: "",
       },
+      banks: [
+        "AB Bank Rwanda Plc",
+        "Access Bank Rwanda Plc",
+        "Bank of Africa Rwanda Ltd",
+        "Bank of Kigali Plc",
+        "BPR Bank Rwanda Plc",
+        "Cogebanque",
+        "Ecobank Rwanda Plc",
+        "Equity Bank Rwanda Plc",
+        "Guaranty Trust Bank Plc",
+        "I&M Bank Rwanda Plc",
+        "KCB Bank Rwanda",
+        "NCBA Rwanda Plc",
+        "Unguka Bank",
+        "Urwego Bank",
+        "Zigama Credit and Savings Bank",
+        "Rwanda Development Bank (RDB)",
+        "Rim Bank",
+        "Goshen Finance",
+        "Standard Chartered Bank",
+        "Citibank"
+      ],
     };
   },
 
@@ -1181,7 +1221,8 @@ export default {
           country: this.provider.country,
           city: this.provider.city,
           adresse: this.provider.adresse,
-          bank_account: this.provider.bank_account
+          bank_account: this.provider.bank_account,
+          bank_name: this.provider.bank_name
         })
         .then(response => {
           Fire.$emit("Event_Provider");
@@ -1211,7 +1252,8 @@ export default {
           country: this.provider.country,
           city: this.provider.city,
           adresse: this.provider.adresse,
-          bank_account: this.provider.bank_account
+          bank_account: this.provider.bank_account,
+          bank_name: this.provider.bank_name
         })
         .then(response => {
           Fire.$emit("Event_Provider");
@@ -1248,6 +1290,7 @@ export default {
         country: "",
         tax_number: "",
         bank_account: "",
+        bank_name: "",
         city: "",
         adresse: ""
       };

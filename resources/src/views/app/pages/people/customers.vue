@@ -573,6 +573,18 @@
                 </b-form-group>
             </b-col>
 
+             <!-- Customer Bank Name -->
+            <b-col md="6" sm="12">
+                <b-form-group :label="$t('Bank_Name')">
+                   <v-select
+                    v-model="client.bank_name"
+                    :reduce="label => label"
+                    :placeholder="$t('PleaseSelect')"
+                    :options="banks"
+                  ></v-select>
+                </b-form-group>
+            </b-col>
+
              <!-- Customer Bank Account -->
             <b-col md="6" sm="12">
                 <b-form-group :label="$t('Bank_Account')">
@@ -700,6 +712,12 @@
                 <!-- Tax Number -->
                 <td>{{$t('Tax_Number')}}</td>
                 <th>{{client.tax_number}}</th>
+              </tr>
+
+              <tr>
+                <!-- Bank Name -->
+                <td>{{$t('Bank_Name')}}</td>
+                <th>{{client.bank_name}}</th>
               </tr>
 
               <tr>
@@ -952,6 +970,7 @@ export default {
         adresse: "",
         tax_number: "",
         bank_account: "",
+        bank_name: "",
 
       },
       client_store: {
@@ -961,6 +980,28 @@ export default {
         NewPassword: null,
       },
       email_exist : "",
+      banks: [
+        "AB Bank Rwanda Plc",
+        "Access Bank Rwanda Plc",
+        "Bank of Africa Rwanda Ltd",
+        "Bank of Kigali Plc",
+        "BPR Bank Rwanda Plc",
+        "Cogebanque",
+        "Ecobank Rwanda Plc",
+        "Equity Bank Rwanda Plc",
+        "Guaranty Trust Bank Plc",
+        "I&M Bank Rwanda Plc",
+        "KCB Bank Rwanda",
+        "NCBA Rwanda Plc",
+        "Unguka Bank",
+        "Urwego Bank",
+        "Zigama Credit and Savings Bank",
+        "Rwanda Development Bank (RDB)",
+        "Rim Bank",
+        "Goshen Finance",
+        "Standard Chartered Bank",
+        "Citibank"
+      ],
     };
   },
 
@@ -1491,7 +1532,8 @@ export default {
           country: this.client.country,
           city: this.client.city,
           adresse: this.client.adresse,
-          bank_account: this.client.bank_account
+          bank_account: this.client.bank_account,
+          bank_name: this.client.bank_name
         })
         .then(response => {
           Fire.$emit("Event_Customer");
@@ -1522,7 +1564,8 @@ export default {
           country: this.client.country,
           city: this.client.city,
           adresse: this.client.adresse,
-          bank_account: this.client.bank_account
+          bank_account: this.client.bank_account,
+          bank_name: this.client.bank_name
         })
         .then(response => {
           Fire.$emit("Event_Customer");
@@ -1550,6 +1593,7 @@ export default {
         country: "",
         tax_number: "",
         bank_account: "",
+        bank_name: "",
         city: "",
         adresse: ""
       };

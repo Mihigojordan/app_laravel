@@ -12,7 +12,7 @@ class Account extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'account_num','account_name','initial_balance','balance','note','type','is_default','created_at', 'updated_at', 'deleted_at'
+        'account_num','account_name','initial_balance','balance','note','type','is_default','bank_name','created_at', 'updated_at', 'deleted_at'
     ];
 
     protected $casts = [

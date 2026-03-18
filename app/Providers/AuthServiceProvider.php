@@ -20,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Subscription'              => 'App\Policies\SubscriptionPolicy',
         'App\Models\ExpenseCategory'           => 'App\Policies\ExpenseCategoryPolicy',
         'App\Models\Purchase'                  => 'App\Policies\PurchasePolicy',
+        'App\Models\Requisition'               => 'App\Policies\RequisitionPolicy',
         'App\Models\Adjustment'                => 'App\Policies\AdjustmentPolicy',
         'App\Models\Product'                   => 'App\Policies\ProductPolicy',
         'App\Models\Brand'                     => 'App\Policies\BrandPolicy',

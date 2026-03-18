@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "../variables";
 @import "colors";
 
@@ -31,11 +32,11 @@ $gray-200: #eee !default;
 $gray-300: #dee2e6 !default;
 $gray-400: #ced4da !default;
 $gray-500: #bbb !default;
-$gray-600: lighten(desaturate($primary-base, 40), 4%) !default;
-$gray-700: darken(desaturate($primary-base, 40), 0%) !default;
-$gray-800: darken(desaturate($primary-base, 40), 8%) !default;
-$gray-900: darken(desaturate($primary-base, 40), 12%) !default;
-$black: darken($primary-base, 60%) !default;
+$gray-600: color.adjust($primary-base, $saturation: -40%, $lightness: 4%) !default;
+$gray-700: color.adjust($primary-base, $saturation: -40%, $lightness: 0%) !default;
+$gray-800: color.adjust($primary-base, $saturation: -40%, $lightness: -8%) !default;
+$gray-900: color.adjust($primary-base, $saturation: -40%, $lightness: -12%) !default;
+$black: color.adjust($primary-base, $lightness: -60%) !default;
 
 $primary: $primary-base !default;
 $secondary: $gray-800 !default;
@@ -47,7 +48,7 @@ $light: $gray-500 !default;
 $dark: $gray-900 !default;
 $background: $white !default;
 $foreground: $gray-900 !default;
-$heading: darken($foreground, 8%);
+$heading: color.adjust($foreground, $lightness: -8%);
 
 // dark version
 $dark-bg: #10163a;

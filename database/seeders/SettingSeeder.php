@@ -32,6 +32,7 @@ class SettingSeeder extends Seeder
                 'app_name' => 'Stocky | Ultimate Inventory With POS',
                 'page_title_suffix' => 'Ultimate Inventory With POS',
                 'favicon' => 'favicon.ico',
+                'two_factor_auth' => 1,
             )
             
         );

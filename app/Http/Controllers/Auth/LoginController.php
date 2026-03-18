@@ -64,11 +64,40 @@ class LoginController extends Controller
 
             try {
                 Log::info("[" . now()->toDateTimeString() . "] LoginController: Attempting to send OTP email");
-                // Set mail config if needed
-                $smtp = new \App\Http\Controllers\BaseController();
-                $smtp->Set_config_mail();
-                
-                Mail::to($user->email)->send(new OtpEmail($data));
+                if (env('MAILTRAP_API_TOKEN')) {
+                    Log::info("LoginController: Sending OTP via Mailtrap API" . (env('MAILTRAP_IS_SANDBOX') ? " (Sandbox)" : ""));
+                    $client = new \GuzzleHttp\Client();
+                    
+                    $url = env('MAILTRAP_IS_SANDBOX') 
+                        ? 'https://sandbox.api.mailtrap.io/api/send/' . env('MAILTRAP_INBOX_ID')
+                        : 'https://send.api.mailtrap.io/api/send';
+
+                    $response = $client->post($url, [
+                        'headers' => [
+                            'Authorization' => 'Bearer ' . env('MAILTRAP_API_TOKEN'),
+                            'Content-Type' => 'application/json',
+                        ],
+                        'json' => [
+                            'from' => ['email' => 'hello@demomailtrap.co', 'name' => 'Mailtrap Test'],
+                            'to' => [['email' => $user->email]],
+                            'subject' => 'Your Login OTP Code',
+                            'text' => 'Your OTP code is: ' . $otp,
+                            'category' => 'OTP Verification',
+                        ],
+                    ]);
+
+                    if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+                        error_log("MAILTRAP: Email sent successfully to {$user->email}");
+                    } else {
+                        error_log("MAILTRAP ERROR: Status " . $response->getStatusCode() . " - " . $response->getBody());
+                    }
+                } else {
+                    // Set mail config if needed
+                    $smtp = new \App\Http\Controllers\BaseController();
+                    $smtp->Set_config_mail();
+                    
+                    Mail::to($user->email)->send(new OtpEmail($data));
+                }
                 Log::info("[" . now()->toDateTimeString() . "] LoginController: OTP email sent successfully");
             } catch (\Throwable $e) {
                 Log::error("[" . now()->toDateTimeString() . "] LoginController: Failed to send OTP email: " . $e->getMessage());
@@ -102,7 +131,7 @@ class LoginController extends Controller
             return response()->json([
                 'otp_required' => true,
                 'email' => $user->email,
-                'otp' => $otp, // Return always for now so the user can see it in console
+                'otp' => (config('app.debug') || env('APP_ENV') == 'development') ? $otp : null,
                 'csrf_token' => csrf_token(),
                 'message' => 'OTP sent to your email',
             ]);
