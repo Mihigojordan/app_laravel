@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install system packages
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,10 +12,8 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
-    libicu-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libicu-dev
 
-# Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 RUN docker-php-ext-install \
@@ -32,27 +30,32 @@ RUN docker-php-ext-install \
 
 RUN a2enmod rewrite
 
-# Install Composer
 COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy only composer files first (better Docker cache)
 COPY composer.json composer.lock ./
 
+# Install dependencies WITHOUT running Laravel scripts
 RUN composer install \
     --no-dev \
     --prefer-dist \
     --no-interaction \
+    --no-scripts \
     --optimize-autoloader
 
-# Copy the rest of the application
 COPY . .
+
+# Create .env if it doesn't exist
+RUN cp .env.example .env || true
+
+RUN mkdir -p storage bootstrap/cache
+
+RUN chmod -R 775 storage bootstrap/cache
 
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
-    /etc/apache2/sites-available/*.conf
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
