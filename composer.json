@@ -28,7 +28,7 @@
         "nwidart/laravel-modules": "^8.3",
         "stripe/stripe-php": "^7.76",
         "twilio/sdk": "^6.22",
-         "kitloong/laravel-migrations-generator": "^6.0",
+        "kitloong/laravel-migrations-generator": "^6.0",
         "yajra/laravel-datatables-oracle": "^10.0"
     },
     "require-dev": {

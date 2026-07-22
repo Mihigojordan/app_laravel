@@ -36,18 +36,27 @@ WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
 
-# Install dependencies WITHOUT running Laravel scripts
+# Install dependencies WITHOUT running Laravel scripts and WITHOUT generating
+# the autoloader yet. The classmap in composer.json points at
+# database/seeders and database/factories, which don't exist in the build
+# context until the full `COPY . .` below runs. Generating the optimized
+# autoloader here (as the old single-step install did) fails with:
+#   "Could not scan for classes inside "database/seeders" ..."
 RUN composer install \
     --no-dev \
     --prefer-dist \
     --no-interaction \
     --no-scripts \
-    --optimize-autoloader
+    --no-autoloader
 
 COPY . .
 
-# Create .env if it doesn't exist
-RUN cp .env.example .env || true
+# Now that the full source tree (including database/seeders and
+# database/factories) is present, generate the optimized autoloader.
+RUN composer dump-autoload --no-dev --optimize --no-scripts
+
+# Create .env if it doesn't exist and a template is available
+RUN [ -f .env ] || [ ! -f .env.example ] || cp .env.example .env
 
 RUN mkdir -p storage bootstrap/cache
 
