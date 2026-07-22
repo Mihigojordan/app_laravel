@@ -46,7 +46,7 @@ Route::get('/seed-req', function() {
 
 //------------------------------------------------------------------\\
 
-$installed = Storage::disk('public')->exists('installed');
+$installed = filter_var(env('APP_FORCE_INSTALLED', false), FILTER_VALIDATE_BOOLEAN) || Storage::disk('public')->exists('installed');
 
 if ($installed === false) {
     Route::get('/setup', [
@@ -150,7 +150,7 @@ if ($installed === false) {
 Route::group(['middleware' => ['web', 'auth:web', 'Is_Active']], function () {
 
     Route::get('/login', function () {
-        $installed = Storage::disk('public')->exists('installed');
+        $installed = filter_var(env('APP_FORCE_INSTALLED', false), FILTER_VALIDATE_BOOLEAN) || Storage::disk('public')->exists('installed');
         if ($installed === false) {
             return redirect('/setup');
         } else {
@@ -161,7 +161,7 @@ Route::group(['middleware' => ['web', 'auth:web', 'Is_Active']], function () {
 
     Route::get('/{vue?}',
       function () {
-        $installed = Storage::disk('public')->exists('installed');
+        $installed = filter_var(env('APP_FORCE_INSTALLED', false), FILTER_VALIDATE_BOOLEAN) || Storage::disk('public')->exists('installed');
         $ModulesData = BaseController::get_Module_Info();
 
         if ($installed === false) {

@@ -20,7 +20,7 @@ class Authenticate extends Middleware
     {
         
 
-        $installed = Storage::disk('public')->exists('installed');
+        $installed = filter_var(env('APP_FORCE_INSTALLED', false), FILTER_VALIDATE_BOOLEAN) || Storage::disk('public')->exists('installed');
         if ($installed === false) {
             return route('setup');
         } else {
