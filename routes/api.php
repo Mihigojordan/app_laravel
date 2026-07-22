@@ -25,6 +25,8 @@ Route::group([
 ], function () {
     Route::post('create', 'PasswordResetController@create');
     Route::post('reset', 'PasswordResetController@reset');
+    Route::post('send-otp', 'PasswordResetController@sendOtp');
+    Route::post('verify-otp', 'PasswordResetController@verifyOtp');
 });
 
 

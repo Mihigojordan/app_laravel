@@ -12,18 +12,17 @@
               <validation-observer ref="submit_login" v-if="!otp_step">
                 <b-form @submit.prevent="Submit_Login">
                   <validation-provider
-                    name="Email Address"
+                    name="Email or Phone"
                     :rules="{ required: true}"
                     v-slot="validationContext"
                   >
-                    <b-form-group :label="$t('Email_Address')" class="text-12">
+                    <b-form-group :label="$t('Email_or_Phone')" class="text-12">
                       <b-form-input
                         :state="getValidationState(validationContext)"
                         aria-describedby="Email-feedback"
                         class="form-control-rounded"
                         type="text"
                         v-model="email"
-                        email
                       ></b-form-input>
                       <b-form-invalid-feedback id="Email-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                     </b-form-group>
@@ -192,7 +191,7 @@ export default {
              self.otp_step = true;
              this.makeToast(
                "success",
-               this.$t("OTP_sent_to_your_email"),
+               response.data.message || this.$t("OTP_sent_to_your_email"),
                this.$t("Success")
              );
            } else {
@@ -270,7 +269,7 @@ export default {
           }
           this.makeToast(
             "success",
-            this.$t("OTP_sent_to_your_email"),
+            response.data.message || this.$t("OTP_sent_to_your_email"),
             this.$t("Success")
           );
           NProgress.done();

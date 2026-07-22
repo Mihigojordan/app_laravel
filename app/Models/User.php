@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstname', 'lastname', 'username', 'email', 'password', 'phone', 'statut', 'avatar', 'role_id','is_all_warehouses', 'notifications_read_at', 'two_factor_code', 'two_factor_expires_at'
+        'firstname', 'lastname', 'username', 'email', 'password', 'phone', 'statut', 'avatar', 'role_id','is_all_warehouses', 'notifications_read_at', 'two_factor_code', 'two_factor_expires_at', 'reset_otp_code', 'reset_otp_expires_at'
     ];
 
     /**
@@ -41,6 +41,7 @@ class User extends Authenticatable
         'is_all_warehouses' => 'integer',
         'notifications_read_at' => 'datetime',
         'two_factor_expires_at' => 'datetime',
+        'reset_otp_expires_at' => 'datetime',
     ];
 
     public function oauthAccessToken()

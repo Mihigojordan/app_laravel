@@ -7,8 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use \Nwidart\Modules\Facades\Module;
 use App\Models\Setting;
-use App\Mail\OtpEmail;
-use Illuminate\Support\Facades\Mail;
+use App\Traits\SendsOtp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +25,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, SendsOtp;
 
     /**
      * The user has been authenticated.
@@ -44,82 +43,49 @@ class LoginController extends Controller
 
         if ($settings && $settings->two_factor_auth) {
             Log::info("LoginController: Initializing 2FA flow");
+
+            $channel = $this->resolveChannel($request->input($this->username()));
+
             // Generate OTP
-            $otp = rand(100000, 999999);
-            Log::info("Login OTP for {$user->email}: {$otp}");
+            $otp = $this->generateOtp();
+            Log::info("Login OTP ({$channel}) for {$user->email}: {$otp}");
             error_log("------------------------------------------");
             error_log("OTP CODE FOR {$user->email}: {$otp}");
             error_log("------------------------------------------");
-            
+
             // Save to user
             $user->two_factor_code = $otp;
             $user->two_factor_expires_at = now()->addMinutes(5);
             $user->save();
 
-            // Send Email
-            $data = [
-                'otp' => $otp,
-                'subject' => 'Your Login OTP Code',
-            ];
+            $sent = $channel === 'sms'
+                ? $this->sendOtpSms($user->phone, $otp)
+                : $this->sendOtpEmail($user->email, $otp, 'Your Login OTP Code');
 
-            try {
-                Log::info("[" . now()->toDateTimeString() . "] LoginController: Attempting to send OTP email");
-                if (env('MAILTRAP_API_TOKEN')) {
-                    Log::info("LoginController: Sending OTP via Mailtrap API" . (env('MAILTRAP_IS_SANDBOX') ? " (Sandbox)" : ""));
-                    $client = new \GuzzleHttp\Client();
-                    
-                    $url = env('MAILTRAP_IS_SANDBOX') 
-                        ? 'https://sandbox.api.mailtrap.io/api/send/' . env('MAILTRAP_INBOX_ID')
-                        : 'https://send.api.mailtrap.io/api/send';
-
-                    $response = $client->post($url, [
-                        'headers' => [
-                            'Authorization' => 'Bearer ' . env('MAILTRAP_API_TOKEN'),
-                            'Content-Type' => 'application/json',
-                        ],
-                        'json' => [
-                            'from' => ['email' => 'hello@demomailtrap.co', 'name' => 'Mailtrap Test'],
-                            'to' => [['email' => $user->email]],
-                            'subject' => 'Your Login OTP Code',
-                            'text' => 'Your OTP code is: ' . $otp,
-                            'category' => 'OTP Verification',
-                        ],
-                    ]);
-
-                    if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
-                        error_log("MAILTRAP: Email sent successfully to {$user->email}");
-                    } else {
-                        error_log("MAILTRAP ERROR: Status " . $response->getStatusCode() . " - " . $response->getBody());
-                    }
-                } else {
-                    // Set mail config if needed
-                    $smtp = new \App\Http\Controllers\BaseController();
-                    $smtp->Set_config_mail();
-                    
-                    Mail::to($user->email)->send(new OtpEmail($data));
-                }
-                Log::info("[" . now()->toDateTimeString() . "] LoginController: OTP email sent successfully");
-            } catch (\Throwable $e) {
-                Log::error("[" . now()->toDateTimeString() . "] LoginController: Failed to send OTP email: " . $e->getMessage());
+            if (!$sent) {
+                Log::error("LoginController: Failed to send OTP via {$channel} for {$user->email}");
                 // In local/dev environments, we should still allow the user to see the OTP step
                 // since the OTP is already logged in the terminal above.
                 if (config('app.debug') || env('APP_ENV') == 'development') {
-                   Log::info("Development mode: Proceeding to OTP step despite mail failure");
-                   Auth::logout();
-                   $request->session()->regenerateToken();
-                   return response()->json([
-                       'otp_required' => true,
-                       'email' => $user->email,
-                       'otp' => $otp,
-                       'csrf_token' => csrf_token(),
-                       'message' => 'OTP generated (Mail failed, check console logs)',
-                   ]);
+                    Log::info("Development mode: Proceeding to OTP step despite send failure");
+                    Auth::logout();
+                    $request->session()->regenerateToken();
+                    return response()->json([
+                        'otp_required' => true,
+                        'email' => $user->email,
+                        'channel' => $channel,
+                        'otp' => $otp,
+                        'csrf_token' => csrf_token(),
+                        'message' => 'OTP generated (' . ($channel === 'sms' ? 'SMS' : 'Mail') . ' failed, check console logs)',
+                    ]);
                 }
-                
+
                 Auth::logout();
                 return response()->json([
                     'status' => false,
-                    'message' => 'Could not send OTP email. Please check your mail settings.',
+                    'message' => $channel === 'sms'
+                        ? 'Could not send OTP SMS. Please check your SMS settings.'
+                        : 'Could not send OTP email. Please check your mail settings.',
                 ], 500);
             }
 
@@ -131,9 +97,10 @@ class LoginController extends Controller
             return response()->json([
                 'otp_required' => true,
                 'email' => $user->email,
+                'channel' => $channel,
                 'otp' => (config('app.debug') || env('APP_ENV') == 'development') ? $otp : null,
                 'csrf_token' => csrf_token(),
-                'message' => 'OTP sent to your email',
+                'message' => 'OTP sent to your ' . ($channel === 'sms' ? 'phone' : 'email'),
             ]);
         }
         Log::info("LoginController: 2FA not required, proceeding with normal login");
@@ -166,7 +133,10 @@ class LoginController extends Controller
      */
     protected function credentials(\Illuminate\Http\Request $request)
     {
-        return ['email' => $request->{$this->username()}, 'password' => $request->password, 'statut' => 1];
+        $login = $request->{$this->username()};
+        $field = $this->resolveChannel($login) === 'email' ? 'email' : 'phone';
+
+        return [$field => $login, 'password' => $request->password, 'statut' => 1];
     }
 
     public function __construct()
