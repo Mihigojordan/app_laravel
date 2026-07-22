@@ -8,6 +8,8 @@ fi
 mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
+chown www-data:www-data .env 2>/dev/null || true
+chmod 664 .env 2>/dev/null || true
 
 php artisan key:generate --force || true
 
