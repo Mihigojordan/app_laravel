@@ -53,6 +53,18 @@ if ($installed === false) {
         'uses' => 'SetupController@viewCheck',
     ])->name('setup');
 
+    // Bypass for databases that are already migrated/seeded: marks the app
+    // as installed WITHOUT running migrate:fresh (unlike the wizard's
+    // lastStep). Requires SETUP_BYPASS_TOKEN to be set as an env var.
+    Route::get('/setup/mark-installed/{token}', function ($token) {
+        $expected = env('SETUP_BYPASS_TOKEN');
+        if (! $expected || ! hash_equals($expected, $token)) {
+            abort(404);
+        }
+        Storage::disk('public')->put('installed', 'OK');
+        return 'Marked as installed without running migrations. You can now remove SETUP_BYPASS_TOKEN.';
+    });
+
     Route::get('/setup/step-1', [
         'uses' => 'SetupController@viewStep1',
     ]);
