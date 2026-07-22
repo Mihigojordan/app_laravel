@@ -49,7 +49,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install Composer dependencies
-RUN composer install --no-dev --prefer-dist --optimize-autoloader
+RUN composer diagnose && composer install -vvv --no-dev --prefer-dist --optimize-autoloader
 
 # Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
