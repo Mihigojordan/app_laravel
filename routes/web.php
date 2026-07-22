@@ -48,39 +48,46 @@ Route::get('/seed-req', function() {
 
 $installed = filter_var(env('APP_FORCE_INSTALLED', false), FILTER_VALIDATE_BOOLEAN) || Storage::disk('public')->exists('installed');
 
+// These diagnostic/bypass routes are intentionally OUTSIDE the
+// $installed check so they still work regardless of install state.
+// All are gated behind SETUP_BYPASS_TOKEN. Remove once no longer needed.
+
+Route::get('/setup/debug-env/{token}', function ($token) {
+    $expected = env('SETUP_BYPASS_TOKEN');
+    if (! $expected || ! hash_equals($expected, $token)) {
+        abort(404);
+    }
+    $env = file_get_contents(base_path() . '/.env');
+    $env = preg_replace(
+        '/^((DB_PASSWORD|MAIL_PASSWORD|STRIPE_SECRET|TWILIO_TOKEN|TWILIO_SID|CLICKSEND_API_KEY|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|PUSHER_APP_SECRET|TERMI_SECRET|NEXMO_SECRET|api_key)=).*/mi',
+        '$1[REDACTED]',
+        $env
+    );
+    return response('<pre>' . htmlspecialchars($env) . '</pre>');
+});
+
+Route::get('/setup/mark-installed/{token}', function ($token) {
+    $expected = env('SETUP_BYPASS_TOKEN');
+    if (! $expected || ! hash_equals($expected, $token)) {
+        abort(404);
+    }
+    Storage::disk('public')->put('installed', 'OK');
+    return 'Marked as installed without running migrations. You can now remove SETUP_BYPASS_TOKEN.';
+});
+
+Route::get('/setup/migrate-status/{token}', function ($token) {
+    $expected = env('SETUP_BYPASS_TOKEN');
+    if (! $expected || ! hash_equals($expected, $token)) {
+        abort(404);
+    }
+    \Illuminate\Support\Facades\Artisan::call('migrate:status');
+    return response('<pre>' . htmlspecialchars(\Illuminate\Support\Facades\Artisan::output()) . '</pre>');
+});
+
 if ($installed === false) {
     Route::get('/setup', [
         'uses' => 'SetupController@viewCheck',
     ])->name('setup');
-
-    // Bypass for databases that are already migrated/seeded: marks the app
-    // as installed WITHOUT running migrate:fresh (unlike the wizard's
-    // lastStep). Requires SETUP_BYPASS_TOKEN to be set as an env var.
-    // Temporary diagnostic: view the current raw .env with secrets masked,
-    // to check for corruption from the setup wizard's changeEnv() writes.
-    // Remove this route once no longer needed.
-    Route::get('/setup/debug-env/{token}', function ($token) {
-        $expected = env('SETUP_BYPASS_TOKEN');
-        if (! $expected || ! hash_equals($expected, $token)) {
-            abort(404);
-        }
-        $env = file_get_contents(base_path() . '/.env');
-        $env = preg_replace(
-            '/^((DB_PASSWORD|MAIL_PASSWORD|STRIPE_SECRET|TWILIO_TOKEN|TWILIO_SID|CLICKSEND_API_KEY|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|PUSHER_APP_SECRET|TERMI_SECRET|NEXMO_SECRET|api_key)=).*/mi',
-            '$1[REDACTED]',
-            $env
-        );
-        return response('<pre>' . htmlspecialchars($env) . '</pre>');
-    });
-
-    Route::get('/setup/mark-installed/{token}', function ($token) {
-        $expected = env('SETUP_BYPASS_TOKEN');
-        if (! $expected || ! hash_equals($expected, $token)) {
-            abort(404);
-        }
-        Storage::disk('public')->put('installed', 'OK');
-        return 'Marked as installed without running migrations. You can now remove SETUP_BYPASS_TOKEN.';
-    });
 
     Route::get('/setup/step-1', [
         'uses' => 'SetupController@viewStep1',
