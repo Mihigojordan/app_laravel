@@ -13,7 +13,7 @@ class ServerSeeder extends Seeder
     public function run()
     {
        // Insert some stuff
-        DB::table('servers')->insert(
+        DB::table('servers')->insertOrIgnore(
             array(
                 'id' => 1,
                 'mail_mailer' => 'smtp',

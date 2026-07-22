@@ -13,7 +13,7 @@ class CurrencySeeder extends Seeder
     public function run()
     {
        	// Insert some stuff
-        DB::table('currencies')->insert(
+        DB::table('currencies')->insertOrIgnore(
             array(
                 'id'     => 1,
                 'code'   => 'USD',

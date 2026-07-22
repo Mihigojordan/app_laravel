@@ -13,7 +13,7 @@ class PermissionsSeeder extends Seeder
     public function run()
     {
        // Insert some stuff
-	DB::table('permissions')->insert(
+	DB::table('permissions')->insertOrIgnore(
 		array([
 			'id'    => 1,
 			'name'  => 'users_view',

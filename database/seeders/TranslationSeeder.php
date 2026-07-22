@@ -16,11 +16,28 @@ class TranslationSeeder extends Seeder
         foreach ($files as $file) {
             $locale = pathinfo($file, PATHINFO_FILENAME); // 'en', 'ar', etc.
             $translations = require $file;
+            $now = now();
 
+            $rows = [];
             foreach ($translations as $key => $value) {
-                DB::table('translations')->updateOrInsert(
-                    ['locale' => $locale, 'key' => $key],
-                    ['value' => $value, 'is_default' => $locale === 'en' ? 1 : 0, 'updated_at' => now(), 'created_at' => now()]
+                $rows[] = [
+                    'locale' => $locale,
+                    'key' => $key,
+                    'value' => $value,
+                    'is_default' => $locale === 'en' ? 1 : 0,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+
+            // Batch upsert instead of one round-trip per key - a single
+            // locale file can have ~1000 keys, and 24 locales at one
+            // query per row made this seeder take tens of minutes.
+            foreach (array_chunk($rows, 500) as $chunk) {
+                DB::table('translations')->upsert(
+                    $chunk,
+                    ['locale', 'key'],
+                    ['value', 'is_default', 'updated_at']
                 );
             }
         }

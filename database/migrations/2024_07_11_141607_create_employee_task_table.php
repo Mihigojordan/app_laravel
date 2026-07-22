@@ -18,6 +18,7 @@ class CreateEmployeeTaskTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->integer('employee_id')->index('employee_task_employee_id');
 			$table->integer('task_id')->index('employee_task_task_id');
+			$table->primary(['employee_id', 'task_id']);
 		});
 	}
 

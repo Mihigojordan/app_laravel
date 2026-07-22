@@ -17,7 +17,7 @@ class CreateApprovalLogsTable extends Migration
             Schema::create('approval_logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('approval_id');
-            $table->unsignedBigInteger('user_id');
+            $table->integer('user_id'); // matches users.id (signed int)
             $table->integer('level');
             $table->enum('action', ['approved', 'rejected'])->default('approved');
             $table->text('comment')->nullable();

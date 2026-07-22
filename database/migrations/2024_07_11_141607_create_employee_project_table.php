@@ -18,6 +18,7 @@ class CreateEmployeeProjectTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->integer('employee_id')->index('employee_project_employee_id');
 			$table->integer('project_id')->index('employee_project_project_id');
+			$table->primary(['employee_id', 'project_id']);
 		});
 	}
 

@@ -21,6 +21,7 @@ class CreateUserWarehouseTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->integer('user_id')->index('user_warehouse_user_id');
 			$table->integer('warehouse_id')->index('user_warehouse_warehouse_id');
+			$table->primary(['user_id', 'warehouse_id']);
 		});
 	}
 

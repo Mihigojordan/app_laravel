@@ -13,7 +13,7 @@ class SettingSeeder extends Seeder
     public function run()
     {
        // Insert some stuff
-        DB::table('settings')->insert(
+        DB::table('settings')->insertOrIgnore(
             array(
                 'id' => 1,
                 'email' => 'admin@example.com',
