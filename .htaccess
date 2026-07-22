@@ -38,10 +38,12 @@ Deny from all
     Deny from all
 </Files>
 
+<IfModule mod_headers.c>
 <FilesMatch "\.csv$">
     Header set Content-Disposition "attachment"
     Header set Content-Type "text/csv"
 </FilesMatch>
+</IfModule>
 
 
 # BEGIN W3TC Browser Cache

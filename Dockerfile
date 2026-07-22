@@ -28,7 +28,7 @@ RUN docker-php-ext-install \
     intl \
     calendar
 
-RUN a2enmod rewrite
+RUN a2enmod rewrite headers
 
 COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
