@@ -56,6 +56,23 @@ if ($installed === false) {
     // Bypass for databases that are already migrated/seeded: marks the app
     // as installed WITHOUT running migrate:fresh (unlike the wizard's
     // lastStep). Requires SETUP_BYPASS_TOKEN to be set as an env var.
+    // Temporary diagnostic: view the current raw .env with secrets masked,
+    // to check for corruption from the setup wizard's changeEnv() writes.
+    // Remove this route once no longer needed.
+    Route::get('/setup/debug-env/{token}', function ($token) {
+        $expected = env('SETUP_BYPASS_TOKEN');
+        if (! $expected || ! hash_equals($expected, $token)) {
+            abort(404);
+        }
+        $env = file_get_contents(base_path() . '/.env');
+        $env = preg_replace(
+            '/^((DB_PASSWORD|MAIL_PASSWORD|STRIPE_SECRET|TWILIO_TOKEN|TWILIO_SID|CLICKSEND_API_KEY|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|PUSHER_APP_SECRET|TERMI_SECRET|NEXMO_SECRET|api_key)=).*/mi',
+            '$1[REDACTED]',
+            $env
+        );
+        return response('<pre>' . htmlspecialchars($env) . '</pre>');
+    });
+
     Route::get('/setup/mark-installed/{token}', function ($token) {
         $expected = env('SETUP_BYPASS_TOKEN');
         if (! $expected || ! hash_equals($expected, $token)) {
