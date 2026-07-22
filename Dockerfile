@@ -1,6 +1,5 @@
 FROM php:8.3-apache
 
-# Install system packages
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -12,15 +11,17 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev
 
-# Install PHP extensions
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg
+
 RUN docker-php-ext-install \
+    gd \
     pdo \
     pdo_mysql \
     mbstring \
     zip \
-    exif \
-    pcntl
-
+    exif
 # Enable Apache rewrite
 RUN a2enmod rewrite
 
