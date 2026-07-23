@@ -22,6 +22,12 @@ php artisan view:clear || true
 
 php artisan storage:link || true
 
+if [ ! -f storage/oauth-private.key ] || [ ! -f storage/oauth-public.key ]; then
+    php artisan passport:keys --force
+    chown www-data:www-data storage/oauth-*.key
+    chmod 600 storage/oauth-*.key
+fi
+
 php artisan migrate --force || true
 
 apache2-foreground
