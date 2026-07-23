@@ -1,3 +1,23 @@
+# ---- Frontend asset build stage ----
+# public/js/bundle (webpack chunk files) is gitignored — it's a build
+# artifact, not source. It must be generated here at image-build time,
+# otherwise the lazy-loaded route chunks (dashboard.js, customizer.js, etc.)
+# simply don't exist in the deployed container and requests for them fall
+# through to Laravel's HTML error page, breaking every non-eager route.
+FROM node:20-alpine AS frontend
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY webpack.mix.js ./
+COPY resources ./resources
+COPY public ./public
+
+RUN npm run production
+
+# ---- PHP application stage ----
 FROM php:8.2-apache
 
 # Install system dependencies
@@ -50,6 +70,12 @@ RUN composer install \
     --no-autoloader
 
 COPY . .
+
+# Overlay the freshly built frontend assets on top of whatever stale
+# public/js/*.min.js happened to be committed — the build output is the
+# source of truth, not what's checked into git.
+COPY --from=frontend /app/public/js ./public/js
+COPY --from=frontend /app/public/mix-manifest.json ./public/mix-manifest.json
 
 # Now that the full source tree (including database/seeders and
 # database/factories) is present, generate the optimized autoloader.
